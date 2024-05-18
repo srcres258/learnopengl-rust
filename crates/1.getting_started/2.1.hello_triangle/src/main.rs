@@ -157,6 +157,12 @@ fn main() {
             window.swap_buffers();
             glfw.poll_events();
         }
+
+        // optional: de-allocate all resources once they've outlived their purpose:
+        // ------------------------------------------------------------------------
+        gl::DeleteVertexArrays(1, &vao);
+        gl::DeleteBuffers(1, &vbo);
+        gl::DeleteProgram(shader_program);
     }
 }
 
