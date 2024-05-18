@@ -1,0 +1,13 @@
+[workspace]
+members = ["crates/*/*"]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "Apache-2.0"
+authors = ["src_resources"]
+
+[workspace.dependencies]
+gl = "0.14.0"
+glfw = "0.55.0"

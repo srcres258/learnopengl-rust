@@ -1,0 +1,10 @@
+[package]
+name = "learnopengl-1-2-1-hello_triangle"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+gl.workspace = true
+glfw.workspace = true
