@@ -1,6 +1,5 @@
 use std::ffi::CString;
-use std::mem::size_of;
-use std::ptr;
+use std::{mem, ptr};
 use gl::types::*;
 use glfw::{Action, Context, Key, OpenGlProfileHint, Window, WindowEvent, WindowHint};
 
@@ -113,7 +112,7 @@ fn main() {
         gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
         gl::BufferData(
             gl::ARRAY_BUFFER,
-            (vertices.len() * size_of::<f32>()) as GLsizeiptr,
+            (vertices.len() * mem::size_of::<f32>()) as GLsizeiptr,
             ptr::addr_of!(vertices) as *const _,
             gl::STATIC_DRAW
         );
@@ -121,7 +120,7 @@ fn main() {
         gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, ebo);
         gl::BufferData(
             gl::ELEMENT_ARRAY_BUFFER,
-            (indices.len() * size_of::<u32>()) as GLsizeiptr,
+            (indices.len() * mem::size_of::<u32>()) as GLsizeiptr,
             ptr::addr_of!(indices) as *const _,
             gl::STATIC_DRAW
         );
@@ -131,7 +130,7 @@ fn main() {
             3,
             gl::FLOAT,
             gl::FALSE,
-            (3 * size_of::<f32>()) as GLsizei,
+            (3 * mem::size_of::<f32>()) as GLsizei,
             ptr::null()
         );
         gl::EnableVertexAttribArray(0);
