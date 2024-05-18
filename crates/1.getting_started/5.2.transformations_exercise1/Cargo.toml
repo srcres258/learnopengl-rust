@@ -1,0 +1,13 @@
+[package]
+name = "learnopengl-1-5-2-transformations_exercise1"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+gl.workspace = true
+glfw.workspace = true
+image.workspace = true
+nalgebra-glm.workspace = true
+learnopengl-shared = { path = "../../../shared" }
