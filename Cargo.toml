@@ -12,3 +12,4 @@ authors = ["src_resources"]
 gl = "0.14.0"
 glfw = "0.55.0"
 image = "0.25.1"
+nalgebra-glm = "0.18.0"
