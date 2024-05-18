@@ -178,7 +178,7 @@ fn process_input(
     event: WindowEvent
 ) {
     match event {
-        glfw::WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
+        WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
             window.set_should_close(true)
         }
         _ => {}
