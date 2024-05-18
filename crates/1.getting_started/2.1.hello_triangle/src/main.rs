@@ -50,8 +50,7 @@ fn main() {
         // vertex shader
         let vertex_shader = gl::CreateShader(gl::VERTEX_SHADER);
         let vertex_data_source = CString::new(VERTEX_SHADER_SOURCE).unwrap();
-        let vertex_data_source_ptr = vertex_data_source.as_ptr();
-        gl::ShaderSource(vertex_shader, 1, &vertex_data_source_ptr, ptr::null());
+        gl::ShaderSource(vertex_shader, 1, &vertex_data_source.as_ptr(), ptr::null());
         gl::CompileShader(vertex_shader);
         // check for shader compile errors
         let mut success = 0i32;
@@ -65,8 +64,7 @@ fn main() {
         // fragment shader
         let fragment_shader = gl::CreateShader(gl::FRAGMENT_SHADER);
         let fragment_data_source = CString::new(FRAGMENT_SHADER_SOURCE).unwrap();
-        let fragment_data_source_ptr = fragment_data_source.as_ptr();
-        gl::ShaderSource(fragment_shader, 1, &fragment_data_source_ptr, ptr::null());
+        gl::ShaderSource(fragment_shader, 1, &fragment_data_source.as_ptr(), ptr::null());
         gl::CompileShader(fragment_shader);
         // check for shader compile errors
         gl::GetShaderiv(fragment_shader, gl::COMPILE_STATUS, &mut success);
