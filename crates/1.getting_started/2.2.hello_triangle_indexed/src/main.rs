@@ -161,7 +161,7 @@ fn main() {
             gl::UseProgram(shader_program);
             gl::BindVertexArray(vao); // // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
             gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, ptr::null());
-            // gl::BindVertexArray(0); // no need to unbind it every ti
+            // gl::BindVertexArray(0); // no need to unbind it every time
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
             // -------------------------------------------------------------------------------
