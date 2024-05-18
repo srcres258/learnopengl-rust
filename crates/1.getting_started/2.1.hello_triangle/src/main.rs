@@ -1,6 +1,7 @@
 use std::ffi::CString;
 use std::mem::size_of;
 use std::ptr;
+use std::ptr::addr_of;
 use gl::types::*;
 use glfw::{Action, Context, Key, OpenGlProfileHint, Window, WindowEvent, WindowHint};
 
@@ -97,7 +98,6 @@ fn main() {
             0.5, -0.5, 0.0, // right
             0.0, 0.5, 0.0  // top
         ];
-        let vertices_vec = Vec::from(&vertices);
 
         let (mut vbo, mut vao) = (0u32, 0u32);
         gl::GenVertexArrays(1, &mut vao);
@@ -109,7 +109,7 @@ fn main() {
         gl::BufferData(
             gl::ARRAY_BUFFER,
             (vertices.len() * size_of::<f32>()) as GLsizeiptr,
-            vertices_vec.as_ptr() as *const _,
+            addr_of!(vertices) as *const _,
             gl::STATIC_DRAW
         );
 
