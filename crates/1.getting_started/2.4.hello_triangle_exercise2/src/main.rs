@@ -103,8 +103,8 @@ fn main() {
         ];
 
         let (mut vbos, mut vaos) = ([0u32; 2], [0u32; 2]);
-        gl::GenVertexArrays(2, &mut vaos[0]); // we can also generate multiple VAOs or buffers at the same time
-        gl::GenBuffers(2, &mut vbos[0]);
+        gl::GenVertexArrays(2, ptr::addr_of_mut!(vaos) as *mut _); // we can also generate multiple VAOs or buffers at the same time
+        gl::GenBuffers(2, ptr::addr_of_mut!(vbos) as *mut _);
         // first triangle setup
         // --------------------
         gl::BindVertexArray(vaos[0]);

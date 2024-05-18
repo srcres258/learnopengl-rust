@@ -89,8 +89,8 @@ fn main() {
             0.45, 0.5, 0.0   // top
         ];
         let (mut vbos, mut vaos) = ([0u32; 2], [0u32; 2]);
-        gl::GenVertexArrays(2, &mut vaos[0]);
-        gl::GenBuffers(2, &mut vbos[0]);
+        gl::GenVertexArrays(2, ptr::addr_of_mut!(vaos) as *mut _);
+        gl::GenBuffers(2, ptr::addr_of_mut!(vbos) as *mut _);
         // first triangle setup
         // --------------------
         gl::BindVertexArray(vaos[0]);
@@ -168,8 +168,8 @@ fn main() {
 
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
-        gl::DeleteVertexArrays(2, &vaos[0]);
-        gl::DeleteBuffers(2, &vbos[0]);
+        gl::DeleteVertexArrays(2, ptr::addr_of!(vaos) as *const _);
+        gl::DeleteBuffers(2, ptr::addr_of!(vbos) as *const _);
         gl::DeleteProgram(shader_program_orange);
         gl::DeleteProgram(shader_program_yellow);
     }
