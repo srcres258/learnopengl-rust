@@ -110,6 +110,10 @@ impl Shader {
             }
         }
     }
+
+    pub fn id(&self) -> u32 {
+        self.id
+    }
 }
 
 impl Drop for Shader {
