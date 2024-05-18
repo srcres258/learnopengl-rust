@@ -1,7 +1,6 @@
 use std::ffi::CString;
 use std::mem::size_of;
 use std::ptr;
-use std::ptr::addr_of;
 use gl::types::*;
 use glfw::{Action, Context, Key, OpenGlProfileHint, Window, WindowEvent, WindowHint};
 
@@ -115,7 +114,7 @@ fn main() {
         gl::BufferData(
             gl::ARRAY_BUFFER,
             (vertices.len() * size_of::<f32>()) as GLsizeiptr,
-            addr_of!(vertices) as *const _,
+            ptr::addr_of!(vertices) as *const _,
             gl::STATIC_DRAW
         );
 
@@ -123,7 +122,7 @@ fn main() {
         gl::BufferData(
             gl::ELEMENT_ARRAY_BUFFER,
             (indices.len() * size_of::<u32>()) as GLsizeiptr,
-            addr_of!(indices) as *const _,
+            ptr::addr_of!(indices) as *const _,
             gl::STATIC_DRAW
         );
 
