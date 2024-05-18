@@ -11,3 +11,4 @@ authors = ["src_resources"]
 [workspace.dependencies]
 gl = "0.14.0"
 glfw = "0.55.0"
+image = "0.25.1"
