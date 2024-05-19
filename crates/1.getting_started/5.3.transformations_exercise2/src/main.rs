@@ -222,7 +222,7 @@ fn main() {
             transform = glm::translate(&transform, &glm::vec3(-0.5f32, 0.5, 0.0));
             let scale_amount = glfw.get_time().sin() as f32;
             transform = glm::scale(&transform, &glm::vec3(scale_amount, scale_amount, scale_amount));
-            gl::UniformMatrix4fv(transform_loc, 1, gl::FALSE, &glm::value_ptr(&transform)[0] as *const _);
+            gl::UniformMatrix4fv(transform_loc, 1, gl::FALSE, &glm::value_ptr(&transform)[0]);
 
             // now with the uniform matrix being replaced with new transformations, draw it again.
             gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, ptr::null());

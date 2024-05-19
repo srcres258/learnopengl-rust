@@ -206,7 +206,7 @@ fn main() {
             our_shader.use_shader();
             let c_str = CString::new("transform").unwrap();
             let transform_loc = gl::GetUniformLocation(our_shader.id(), c_str.as_ptr());
-            gl::UniformMatrix4fv(transform_loc, 1, gl::FALSE, &glm::value_ptr(&transform)[0] as *const _);
+            gl::UniformMatrix4fv(transform_loc, 1, gl::FALSE, &glm::value_ptr(&transform)[0]);
 
             // render container
             gl::BindVertexArray(vao);
