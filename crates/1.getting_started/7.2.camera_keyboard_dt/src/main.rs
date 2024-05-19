@@ -3,7 +3,7 @@ extern crate nalgebra_glm as glm;
 use std::{mem, ptr};
 use std::error::Error;
 use gl::types::*;
-use glfw::{Action, Context, Key, OpenGlProfileHint, Window, WindowEvent, WindowHint};
+use glfw::{Action, Context, Key, OpenGlProfileHint, Window, WindowHint};
 use learnopengl_shared::{filesystem, util};
 use learnopengl_shared::shader_m::Shader;
 use image::io::Reader as ImageReader;
@@ -40,7 +40,7 @@ fn main() {
 
     // glfw window creation
     // --------------------
-    let (mut window, events) = glfw.create_window(
+    let (mut window, _) = glfw.create_window(
         SCR_WIDTH, SCR_HEIGHT,
         "LearnOpenGL", glfw::WindowMode::Windowed)
         .expect("Failed to create GLFW window.");
@@ -241,9 +241,7 @@ fn main() {
 
             // input
             // -----
-            for (_, event) in glfw::flush_messages(&events) {
-                process_input(&mut window, event);
-            }
+            process_input(&mut window);
 
             // render
             // ------
@@ -299,43 +297,38 @@ fn load_image_data_rgba(path: String) -> Result<RgbaImage, Box<dyn Error>> {
     Ok(img.to_rgba8())
 }
 
-fn process_input(
-    window: &mut Window,
-    event: WindowEvent
-) {
+fn process_input(window: &mut Window) {
+    if window.get_key(Key::Escape) == Action::Press {
+        window.set_should_close(true)
+    }
+
     let camera_speed;
     unsafe {
         camera_speed = 2.5 * DELTA_TIME
     }
-    match event {
-        WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
-            window.set_should_close(true)
+    if window.get_key(Key::W) == Action::Press {
+        unsafe {
+            CAMERA_POS = Some(CAMERA_POS.unwrap()
+                + camera_speed * CAMERA_FRONT.unwrap());
         }
-        WindowEvent::Key(Key::W, _, _, _) => {
-            unsafe {
-                CAMERA_POS = Some(CAMERA_POS.unwrap()
-                    + camera_speed * CAMERA_FRONT.unwrap());
-            }
+    }
+    if window.get_key(Key::S) == Action::Press {
+        unsafe {
+            CAMERA_POS = Some(CAMERA_POS.unwrap()
+                - camera_speed * CAMERA_FRONT.unwrap());
         }
-        WindowEvent::Key(Key::S, _, _, _) => {
-            unsafe {
-                CAMERA_POS = Some(CAMERA_POS.unwrap()
-                    - camera_speed * CAMERA_FRONT.unwrap());
-            }
+    }
+    if window.get_key(Key::A) == Action::Press {
+        unsafe {
+            CAMERA_POS = Some(CAMERA_POS.unwrap()
+                - glm::normalize(&glm::cross(&CAMERA_FRONT.unwrap(), &CAMERA_UP.unwrap())) * camera_speed);
         }
-        WindowEvent::Key(Key::A, _, _, _) => {
-            unsafe {
-                CAMERA_POS = Some(CAMERA_POS.unwrap()
-                    - glm::normalize(&glm::cross(&CAMERA_FRONT.unwrap(), &CAMERA_UP.unwrap())) * camera_speed);
-            }
+    }
+    if window.get_key(Key::D) == Action::Press {
+        unsafe {
+            CAMERA_POS = Some(CAMERA_POS.unwrap()
+                + glm::normalize(&glm::cross(&CAMERA_FRONT.unwrap(), &CAMERA_UP.unwrap())) * camera_speed);
         }
-        WindowEvent::Key(Key::D, _, _, _) => {
-            unsafe {
-                CAMERA_POS = Some(CAMERA_POS.unwrap()
-                    + glm::normalize(&glm::cross(&CAMERA_FRONT.unwrap(), &CAMERA_UP.unwrap())) * camera_speed);
-            }
-        }
-        _ => {}
     }
 }
 
