@@ -139,7 +139,7 @@ impl Camera {
         y_offset *= self.mouse_sensitivity;
 
         self.yaw += x_offset;
-        self.pitch *= y_offset;
+        self.pitch += y_offset;
 
         // make sure that when pitch is out of bounds, screen doesn't get flipped
         if constrain_pitch {
