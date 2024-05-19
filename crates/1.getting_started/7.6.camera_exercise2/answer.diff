@@ -1,0 +1,54 @@
+diff --git a/shared/src/camera.rs b/shared/src/camera.rs
+index 020cc21..00d7484 100644
+--- a/shared/src/camera.rs
++++ b/shared/src/camera.rs
+@@ -103,7 +103,7 @@ impl Camera {
+ 
+     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
+     pub fn get_view_matrix(&self) -> glm::TMat4<f32> {
+-        glm::look_at_rh(&self.position, &(self.position + self.front), &self.up)
++        calculate_look_at_matrix(&self.position, &(self.position + self.front), &self.up)
+     }
+ 
+     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
+@@ -213,4 +213,39 @@ impl Camera {
+     pub fn zoom(&self) -> f32 {
+         self.zoom
+     }
++}
++
++// Custom implementation of the LookAt function
++fn calculate_look_at_matrix(
++    position: &glm::TVec3<f32>,
++    target: &glm::TVec3<f32>,
++    world_up: &glm::TVec3<f32>
++) -> glm::TMat4<f32> {
++    // 1. Position = known
++    // 2. Calculate cameraDirection
++    let z_axis = glm::normalize(&(position - target));
++    // 3. Get positive right axis vector
++    let x_axis = glm::normalize(&glm::cross(&glm::normalize(world_up), &z_axis));
++    // 4. Calculate camera up vector
++    let y_axis = glm::cross(&z_axis, &x_axis);
++
++    // Create translation and rotation matrix
++    // In glm we access elements as mat[col][row] due to column-major layout
++    let mut translation = util::glm::diag_mat4(1.0); // Identity matrix by default
++    translation.m14 = -position.x; // Fourth column, first row
++    translation.m24 = -position.y;
++    translation.m34 = -position.z;
++    let mut rotation = util::glm::diag_mat4(1.0);
++    rotation.m11 = x_axis.x; // First column, first row
++    rotation.m12 = x_axis.y;
++    rotation.m13 = x_axis.z;
++    rotation.m21 = y_axis.x; // First column, second row
++    rotation.m22 = y_axis.y;
++    rotation.m23 = y_axis.z;
++    rotation.m31 = z_axis.x; // First column, third row
++    rotation.m32 = z_axis.y;
++    rotation.m33 = z_axis.z;
++
++    // Return lookAt matrix as combination of translation and rotation matrix
++    rotation * translation // Remember to read from right to left (first translation then rotation)
+ }
+\ No newline at end of file

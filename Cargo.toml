@@ -1,6 +1,9 @@
 [workspace]
 members = ["crates/*/*", "shared"]
-exclude = ["crates/1.getting_started/7.5.camera_exercise1"]
+exclude = [
+    "crates/1.getting_started/7.5.camera_exercise1",
+    "crates/1.getting_started/7.6.camera_exercise2"
+]
 resolver = "2"
 
 [workspace.package]
