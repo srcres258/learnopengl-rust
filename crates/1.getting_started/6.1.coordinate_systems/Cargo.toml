@@ -1,5 +1,5 @@
 [package]
-name = "learnopengl-shared"
+name = "learnopengl-1-6-1-coordinate_systems"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
@@ -8,4 +8,7 @@ authors.workspace = true
 [dependencies]
 gl.workspace = true
 glfw.workspace = true
+image.workspace = true
 nalgebra-glm.workspace = true
+learnopengl-shared = { path = "../../../shared" }
+
