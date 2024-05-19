@@ -1,0 +1,13 @@
+[package]
+name = "learnopengl-1-7-2-camera_keyboard_dt"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+gl.workspace = true
+glfw.workspace = true
+image.workspace = true
+nalgebra-glm.workspace = true
+learnopengl-shared = { path = "../../../shared" }
