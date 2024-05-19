@@ -11,4 +11,3 @@ glfw.workspace = true
 image.workspace = true
 nalgebra-glm.workspace = true
 learnopengl-shared = { path = "../../../shared" }
-
