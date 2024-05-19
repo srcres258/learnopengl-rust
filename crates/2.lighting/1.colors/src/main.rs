@@ -131,7 +131,14 @@ fn main() {
         gl::BindVertexArray(cube_vao);
 
         // position attribute
-        gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (3 * mem::size_of::<f32>()) as GLsizei, ptr::null());
+        gl::VertexAttribPointer(
+            0,
+            3,
+            gl::FLOAT,
+            gl::FALSE,
+            (3 * mem::size_of::<f32>()) as GLsizei,
+            ptr::null()
+        );
         gl::EnableVertexAttribArray(0);
 
         // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
@@ -142,7 +149,14 @@ fn main() {
         // we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
         gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
 
-        gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (3 * mem::size_of::<f32>()) as GLsizei, ptr::null());
+        gl::VertexAttribPointer(
+            0,
+            3,
+            gl::FLOAT,
+            gl::FALSE,
+            (3 * mem::size_of::<f32>()) as GLsizei,
+            ptr::null()
+        );
         gl::EnableVertexAttribArray(0);
 
         // render loop
@@ -169,7 +183,12 @@ fn main() {
             lighting_shader.set_vec3_coords("lightColor".to_string(), 1.0, 1.0, 1.0);
 
             // view/projection transformations
-            let projection = glm::perspective(CAMERA.lock().unwrap().zoom().to_radians(), (SCR_WIDTH as f32) / (SCR_HEIGHT as f32), 0.1, 100.0);
+            let projection = glm::perspective(
+                CAMERA.lock().unwrap().zoom().to_radians(),
+                (SCR_WIDTH as f32) / (SCR_HEIGHT as f32),
+                0.1,
+                100.0
+            );
             let view = CAMERA.lock().unwrap().get_view_matrix();
             lighting_shader.set_mat4("projection".to_string(), &projection);
             lighting_shader.set_mat4("view".to_string(), &view);
