@@ -1,0 +1,28 @@
+// This function is found in the camera class. What we basically do is keep the y position value at 0.0f to force our
+// user to stick to the ground.
+
+[...]
+    // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
+    pub fn process_keyboard(
+        &mut self, direction: Movement,
+        delta_time: f32
+    ) {
+        let velocity = self.movement_speed * delta_time;
+        match direction {
+            Movement::FORWARD => {
+                self.position += self.front * velocity;
+            }
+            Movement::BACKWARD => {
+                self.position -= self.front * velocity;
+            }
+            Movement::LEFT => {
+                self.position -= self.right * velocity;
+            }
+            Movement::RIGHT => {
+                self.position += self.right * velocity;
+            }
+        }
+        // make sure the user stays at the ground level
+        self.position.y = 0.0; // <-- this one-liner keeps the user at the ground level (xz plane)
+    }
+[...]

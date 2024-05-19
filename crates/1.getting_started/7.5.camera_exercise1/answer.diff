@@ -1,0 +1,13 @@
+diff --git a/shared/src/camera.rs b/shared/src/camera.rs
+index 2346b87..97b1a08 100644
+--- a/shared/src/camera.rs
++++ b/shared/src/camera.rs
+@@ -126,6 +126,8 @@ impl Camera {
+                 self.position += self.right * velocity;
+             }
+         }
++        // make sure the user stays at the ground level
++        self.position.y = 0.0; // <-- this one-liner keeps the user at the ground level (xz plane)
+     }
+ 
+     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
