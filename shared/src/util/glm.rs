@@ -12,6 +12,18 @@ pub fn empty_vec4() -> glm::TVec4<f32> {
     glm::vec4(0.0, 0.0, 0.0, 0.0)
 }
 
+pub fn scale_vec2(value: f32) -> glm::TVec2<f32> {
+    glm::vec2(value, value)
+}
+
+pub fn scale_vec3(value: f32) -> glm::TVec3<f32> {
+    glm::vec3(value, value, value)
+}
+
+pub fn scale_vec4(value: f32) -> glm::TVec4<f32> {
+    glm::vec4(value, value, value, value)
+}
+
 pub fn diag_mat2(value: f32) -> glm::TMat2<f32> {
     glm::mat2(
         value, 0.0,
