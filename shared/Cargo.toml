@@ -10,3 +10,4 @@ gl.workspace = true
 glfw.workspace = true
 nalgebra-glm.workspace = true
 image.workspace = true
+russimp.workspace = true
