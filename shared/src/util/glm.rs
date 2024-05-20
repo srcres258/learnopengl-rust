@@ -47,3 +47,24 @@ pub fn diag_mat4(value: f32) -> glm::TMat4<f32> {
         0.0, 0.0, 0.0, value
     )
 }
+
+pub fn vec2_times(
+    a: &glm::TVec2<f32>,
+    b: &glm::TVec2<f32>
+) -> glm::TVec2<f32> {
+    glm::vec2(a.x * b.x, a.y * b.y)
+}
+
+pub fn vec3_times(
+    a: &glm::TVec3<f32>,
+    b: &glm::TVec3<f32>
+) -> glm::TVec3<f32> {
+    glm::vec3(a.x * b.x, a.y * b.y, a.z * b.z)
+}
+
+pub fn vec4_times(
+    a: &glm::TVec4<f32>,
+    b: &glm::TVec4<f32>
+) -> glm::TVec4<f32> {
+    glm::vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w)
+}

@@ -193,11 +193,11 @@ fn main() {
 
             // light properties
             let mut light_color = util::glm::empty_vec3();
-            light_color.x = (glfw.get_time() * 2.0) as f32;
-            light_color.y = (glfw.get_time() * 0.7) as f32;
-            light_color.z = (glfw.get_time() * 1.3) as f32;
-            let diffuse_color = glm::cross(&light_color, &util::glm::scale_vec3(0.5));
-            let ambient_color = glm::cross(&diffuse_color, &util::glm::scale_vec3(0.2));
+            light_color.x = (glfw.get_time() * 2.0).sin() as f32;
+            light_color.y = (glfw.get_time() * 0.7).sin() as f32;
+            light_color.z = (glfw.get_time() * 1.3).sin() as f32;
+            let diffuse_color = util::glm::vec3_times(&light_color, &util::glm::scale_vec3(0.5));
+            let ambient_color = util::glm::vec3_times(&diffuse_color, &util::glm::scale_vec3(0.2));
             lighting_shader.set_vec3("light.ambient".to_string(), &ambient_color); // decrease the influence
             lighting_shader.set_vec3("light.diffuse".to_string(), &diffuse_color); // low influence
             lighting_shader.set_vec3("light.specular".to_string(), &(glm::vec3(1.0, 1.0, 1.0)));
