@@ -4,7 +4,7 @@ use std::{mem, ptr};
 use std::sync::Mutex;
 use gl::types::*;
 use glfw::{Action, Context, CursorMode, Key, OpenGlProfileHint, Window, WindowHint};
-use learnopengl_shared::util;
+use learnopengl_shared::{filesystem, util};
 use learnopengl_shared::shader_m::Shader;
 use lazy_static::lazy_static;
 use learnopengl_shared::camera::{Camera, Movement};
@@ -67,7 +67,7 @@ fn main() {
 
         // build and compile our shader program
         // ------------------------------------
-        let lighting_shader = Shader::new("4.1.materials.vs".to_string(), "4.1.materials.fs".to_string());
+        let lighting_shader = Shader::new("4.1.lighting_maps.vs".to_string(), "4.1.lighting_maps.fs".to_string());
         let lighting_cube_shader = Shader::new("4.1.light_cube.vs".to_string(), "4.1.light_cube.fs".to_string());
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
@@ -171,14 +171,19 @@ fn main() {
             3,
             gl::FLOAT,
             gl::FALSE,
-            (6 * mem::size_of::<f32>()) as GLsizei,
+            (8 * mem::size_of::<f32>()) as GLsizei,
             ptr::null()
         );
         gl::EnableVertexAttribArray(0);
 
         // load textures (we now use a utility function to keep the code more organized)
         // -----------------------------------------------------------------------------
-        //todo
+        let diffuse_map = load_texture(filesystem::get_path("resources/textures/container2.png".to_string()));
+
+        // shader configuration
+        // --------------------
+        lighting_shader.use_shader();
+        lighting_shader.set_int("material.diffuse".to_string(), 0);
 
         // render loop
         // -----------
@@ -204,15 +209,13 @@ fn main() {
             lighting_shader.set_vec3("viewPos".to_string(), &CAMERA.lock().unwrap().position());
 
             // light properties
-            lighting_shader.set_vec3("light.ambient".to_string(), &(glm::vec3(1.0, 1.0, 1.0))); // note that all light colors are set at full intensity
-            lighting_shader.set_vec3("light.diffuse".to_string(), &(glm::vec3(1.0, 1.0, 1.0)));
+            lighting_shader.set_vec3("light.ambient".to_string(), &(glm::vec3(0.2, 0.2, 0.2))); // note that all light colors are set at full intensity
+            lighting_shader.set_vec3("light.diffuse".to_string(), &(glm::vec3(0.5, 0.5, 0.5)));
             lighting_shader.set_vec3("light.specular".to_string(), &(glm::vec3(1.0, 1.0, 1.0)));
 
             // material properties
-            lighting_shader.set_vec3_coords("material.ambient".to_string(), 0.0, 0.1, 0.06);
-            lighting_shader.set_vec3_coords("material.diffuse".to_string(), 0.0, 0.50980392, 0.50980392);
-            lighting_shader.set_vec3_coords("material.specular".to_string(), 0.50196078, 0.50196078, 0.50196078);
-            lighting_shader.set_float("material.shininess".to_string(), 32.0);
+            lighting_shader.set_vec3_coords("material.specular".to_string(), 0.5, 0.5, 0.5);
+            lighting_shader.set_float("material.shininess".to_string(), 64.0);
 
             // view/projection transformations
             let projection = glm::perspective(
@@ -228,6 +231,10 @@ fn main() {
             // world transformation
             let model = util::glm::diag_mat4(1.0);
             lighting_shader.set_mat4("model".to_string(), &model);
+
+            // bind diffuse map
+            gl::ActiveTexture(gl::TEXTURE0);
+            gl::BindTexture(gl::TEXTURE_2D, diffuse_map);
 
             // render the cube
             gl::BindVertexArray(cube_vao);
@@ -334,8 +341,27 @@ fn load_texture(path: String) -> u32 {
     let mut texture_id = 0u32;
     unsafe {
         gl::GenTextures(1, &mut texture_id);
-        
+
+        let img = util::image::load_image_data_rgba(path)
+            .expect("Failed to load texture data.");
+        let width = img.width();
+        let height = img.height();
+        let data = img.as_raw();
+
+        gl::BindTexture(gl::TEXTURE_2D, texture_id);
+        gl::TexImage2D(
+            gl::TEXTURE_2D,
+            0,
+            gl::RGBA as GLint,
+            width as GLint,
+            height as GLint,
+            0,
+            gl::RGBA,
+            gl::UNSIGNED_BYTE,
+            data.as_ptr() as *const _
+        );
+        gl::GenerateMipmap(gl::TEXTURE_2D);
     }
-    
+
     texture_id
 }
