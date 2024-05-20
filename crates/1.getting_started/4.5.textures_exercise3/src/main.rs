@@ -1,12 +1,9 @@
 use std::{mem, ptr};
-use std::error::Error;
 use std::ffi::CString;
 use gl::types::*;
 use glfw::{Action, Context, Key, OpenGlProfileHint, Window, WindowEvent, WindowHint};
-use learnopengl_shared::filesystem;
+use learnopengl_shared::{filesystem, util};
 use learnopengl_shared::shader_s::Shader;
-use image::io::Reader as ImageReader;
-use image::{RgbaImage, RgbImage};
 
 const SCR_WIDTH: u32 = 800;
 const SCR_HEIGHT: u32 = 600;
@@ -124,7 +121,7 @@ fn main() {
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as GLint);
         // load image, create texture and generate mipmaps
         // The filesystem::get_path(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-        let img = load_image_data_rgb(filesystem::get_path(
+        let img = util::image::load_image_data_rgb(filesystem::get_path(
             "resources/textures/container.jpg".to_string()))
             .expect("Failed to load texture1 data.");
         let width = img.width();
@@ -154,7 +151,7 @@ fn main() {
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::NEAREST as GLint);
         // load image, create texture and generate mipmaps
         // The filesystem::get_path(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-        let img = load_image_data_rgba(filesystem::get_path(
+        let img = util::image::load_image_data_rgba(filesystem::get_path(
             "resources/textures/awesomeface.png".to_string()))
             .expect("Failed to load texture2 data.");
         let width = img.width();
@@ -220,16 +217,6 @@ fn main() {
         gl::DeleteBuffers(1, &vbo);
         gl::DeleteBuffers(1, &ebo);
     }
-}
-
-fn load_image_data_rgb(path: String) -> Result<RgbImage, Box<dyn Error>> {
-    let img = ImageReader::open(path)?.with_guessed_format()?.decode()?.flipv();
-    Ok(img.to_rgb8())
-}
-
-fn load_image_data_rgba(path: String) -> Result<RgbaImage, Box<dyn Error>> {
-    let img = ImageReader::open(path)?.with_guessed_format()?.decode()?.flipv();
-    Ok(img.to_rgba8())
 }
 
 fn process_input(
