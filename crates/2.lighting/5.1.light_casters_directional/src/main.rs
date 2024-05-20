@@ -253,11 +253,12 @@ fn main() {
             // gl::DrawArrays(gl::TRIANGLES, 0, 36);
 
             // render containers
+            gl::BindVertexArray(cube_vao);
             for (i, position) in cube_positions.iter().enumerate() {
                 // calculate the model matrix for each object and pass it to shader before drawing
                 let mut model = util::glm::diag_mat4(1.0);
                 model = glm::translate(&model, position);
-                let angle = 20f32 * i as f32;
+                let angle = (20 * i) as f32;
                 model = glm::rotate(&model, angle.to_radians(), &glm::vec3(1.0, 0.3, 0.5));
                 lighting_shader.set_mat4("model".to_string(), &model);
 

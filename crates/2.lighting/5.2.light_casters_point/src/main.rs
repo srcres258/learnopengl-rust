@@ -67,7 +67,7 @@ fn main() {
         // build and compile our shader program
         // ------------------------------------
         let lighting_shader = Shader::new("5.2.light_casters.vs".to_string(), "5.2.light_casters.fs".to_string());
-        let _lighting_cube_shader = Shader::new("5.2.light_cube.vs".to_string(), "5.2.light_cube.fs".to_string());
+        let lighting_cube_shader = Shader::new("5.2.light_cube.vs".to_string(), "5.2.light_cube.fs".to_string());
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -260,28 +260,29 @@ fn main() {
             // gl::DrawArrays(gl::TRIANGLES, 0, 36);
 
             // render containers
+            gl::BindVertexArray(cube_vao);
             for (i, position) in cube_positions.iter().enumerate() {
                 // calculate the model matrix for each object and pass it to shader before drawing
                 let mut model = util::glm::diag_mat4(1.0);
                 model = glm::translate(&model, position);
-                let angle = 20f32 * i as f32;
+                let angle = (20 * i) as f32;
                 model = glm::rotate(&model, angle.to_radians(), &glm::vec3(1.0, 0.3, 0.5));
                 lighting_shader.set_mat4("model".to_string(), &model);
 
                 gl::DrawArrays(gl::TRIANGLES, 0, 36);
             }
 
-            // a lamp object is weird when we only have a directional light, don't render the light object
-            // lighting_cube_shader.use_shader();
-            // lighting_cube_shader.set_mat4("projection".to_string(), &projection);
-            // lighting_cube_shader.set_mat4("view".to_string(), &view);
-            // let mut model = util::glm::diag_mat4(1.0);
-            // model = glm::translate(&model, &LIGHT_POS);
-            // model = glm::scale(&model, &util::glm::scale_vec3(0.2)); // a smaller cube
-            // lighting_cube_shader.set_mat4("model".to_string(), &model);
-            //
-            // gl::BindVertexArray(light_cube_vao);
-            // gl::DrawArrays(gl::TRIANGLES, 0, 36);
+            // also draw the lamp object
+            lighting_cube_shader.use_shader();
+            lighting_cube_shader.set_mat4("projection".to_string(), &projection);
+            lighting_cube_shader.set_mat4("view".to_string(), &view);
+            let mut model = util::glm::diag_mat4(1.0);
+            model = glm::translate(&model, &LIGHT_POS);
+            model = glm::scale(&model, &util::glm::scale_vec3(0.2)); // a smaller cube
+            lighting_cube_shader.set_mat4("model".to_string(), &model);
+
+            gl::BindVertexArray(light_cube_vao);
+            gl::DrawArrays(gl::TRIANGLES, 0, 36);
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
             // -------------------------------------------------------------------------------
