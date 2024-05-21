@@ -68,3 +68,116 @@ pub fn vec4_times(
 ) -> glm::TVec4<f32> {
     glm::vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const SCALE_VEC_AMOUNT: f32 = 114.514;
+    const DIAG_VEC_AMOUNT: f32 = 1919.810;
+
+    #[test]
+    fn empty_vec2_test() {
+        assert_eq!(empty_vec2(), glm::vec2(0.0, 0.0));
+    }
+
+    #[test]
+    fn empty_vec3_test() {
+        assert_eq!(empty_vec3(), glm::vec3(0.0, 0.0, 0.0));
+    }
+
+    #[test]
+    fn empty_vec4_test() {
+        assert_eq!(empty_vec4(), glm::vec4(0.0, 0.0, 0.0, 0.0));
+    }
+
+    #[test]
+    fn scale_vec2_test() {
+        assert_eq!(
+            scale_vec2(SCALE_VEC_AMOUNT),
+            glm::vec2(SCALE_VEC_AMOUNT, SCALE_VEC_AMOUNT)
+        );
+    }
+
+    #[test]
+    fn scale_vec3_test() {
+        assert_eq!(
+            scale_vec3(SCALE_VEC_AMOUNT),
+            glm::vec3(SCALE_VEC_AMOUNT, SCALE_VEC_AMOUNT, SCALE_VEC_AMOUNT)
+        );
+    }
+
+    #[test]
+    fn scale_vec4_test() {
+        assert_eq!(
+            scale_vec4(SCALE_VEC_AMOUNT),
+            glm::vec4(SCALE_VEC_AMOUNT, SCALE_VEC_AMOUNT, SCALE_VEC_AMOUNT, SCALE_VEC_AMOUNT)
+        );
+    }
+
+    #[test]
+    fn diag_mat2_test() {
+        assert_eq!(
+            diag_mat2(DIAG_VEC_AMOUNT),
+            glm::mat2(
+                DIAG_VEC_AMOUNT, 0.0,
+                0.0, DIAG_VEC_AMOUNT
+            )
+        );
+    }
+
+    #[test]
+    fn diag_mat3_test() {
+        assert_eq!(
+            diag_mat3(DIAG_VEC_AMOUNT),
+            glm::mat3(
+                DIAG_VEC_AMOUNT, 0.0, 0.0,
+                0.0, DIAG_VEC_AMOUNT, 0.0,
+                0.0, 0.0, DIAG_VEC_AMOUNT
+            )
+        );
+    }
+
+    #[test]
+    fn diag_mat4_test() {
+        assert_eq!(
+            diag_mat4(DIAG_VEC_AMOUNT),
+            glm::mat4(
+                DIAG_VEC_AMOUNT, 0.0, 0.0, 0.0,
+                0.0, DIAG_VEC_AMOUNT, 0.0, 0.0,
+                0.0, 0.0, DIAG_VEC_AMOUNT, 0.0,
+                0.0, 0.0, 0.0, DIAG_VEC_AMOUNT
+            )
+        );
+    }
+
+    #[test]
+    fn vec2_times_test() {
+        let a = glm::vec2(114.514, 1919.810);
+        let b = glm::vec2(411.415, 018.9191);
+        assert_eq!(
+            vec2_times(&a, &b),
+            glm::vec2(a.x * b.x, a.y * b.y)
+        );
+    }
+
+    #[test]
+    fn vec3_times_test() {
+        let a = glm::vec3(114.514, 1919.810, 514.114);
+        let b = glm::vec3(411.415, 9191.018, 415.411);
+        assert_eq!(
+            vec3_times(&a, &b),
+            glm::vec3(a.x * b.x, a.y * b.y, a.z * b.z)
+        );
+    }
+
+    #[test]
+    fn vec4_times_test() {
+        let a = glm::vec4(114.514, 1919.810, 514.114, 810.1919);
+        let b = glm::vec4(411.415, 9191.018, 415.411, 018.9191);
+        assert_eq!(
+            vec4_times(&a, &b),
+            glm::vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w)
+        );
+    }
+}

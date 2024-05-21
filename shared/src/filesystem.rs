@@ -26,3 +26,32 @@ fn get_path_relative_root(path: String) -> String {
 fn get_path_relative_binary(path: String) -> String {
     format!("../../../{}", path)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::Path;
+
+    const FILE: &str = "resources/textures/awesomeface.png";
+    const DIR: &str = "resources/textures";
+
+    #[test]
+    fn get_path_test_file() {
+        let file_name = get_path(FILE.to_string());
+        assert!(file_name.len() > 0, "{} failed to be converted into a path.", FILE);
+        let file_path = Path::new(&file_name);
+        assert!(file_path.exists(), "{} must exist.", FILE);
+        assert!(file_path.is_file(), "{} must mean a file.", FILE);
+        assert!(!file_path.is_dir(), "{} mustn't mean a directory.", FILE);
+    }
+
+    #[test]
+    fn get_path_test_dir() {
+        let file_name = get_path(DIR.to_string());
+        assert!(file_name.len() > 0, "{} failed to be converted into a path.", FILE);
+        let file_path = Path::new(&file_name);
+        assert!(file_path.exists(), "{} must exist.", DIR);
+        assert!(file_path.is_dir(), "{} must mean a directory.", FILE);
+        assert!(!file_path.is_file(), "{} mustn't mean a file.", DIR);
+    }
+}
