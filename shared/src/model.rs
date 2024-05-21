@@ -54,11 +54,13 @@ impl Model {
             .unwrap();
 
         // process ASSIMP's root node recursively
-        self.process_node(scene.root.clone().unwrap(), &scene);
+        if let Some(root) = &scene.root {
+            self.process_node(root, &scene);
+        }
     }
 
     // processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
-    fn process_node(&mut self, node: Rc<Node>, scene: &AIScene) {
+    fn process_node(&mut self, node: &Node, scene: &AIScene) {
         // process each mesh located at the current node
         for &mesh_i in node.meshes.iter() {
             let mesh_i = mesh_i as usize;
@@ -67,6 +69,10 @@ impl Model {
             let mesh = &scene.meshes[mesh_i];
             let result = self.process_mesh(mesh, scene);
             self.meshes.push(result);
+        }
+        // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+        for child in node.children.borrow().iter() {
+            self.process_node(child, scene);
         }
     }
 
@@ -187,7 +193,7 @@ impl Model {
         }
         textures
     }
-    
+
     pub fn draw(&self, shader: &Shader) {
         for mesh in self.meshes.iter() {
             mesh.draw(shader);
