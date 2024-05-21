@@ -5,4 +5,4 @@ pub mod util;
 pub mod camera;
 pub mod shader;
 pub mod mesh;
-mod model;
+pub mod model;

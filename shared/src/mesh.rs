@@ -9,6 +9,7 @@ use crate::util;
 const MAX_BONE_INFLUENCE: usize = 4;
 
 #[repr(C)]
+#[derive(Clone)]
 pub struct Vertex {
     /// position
     pub position: glm::TVec3<f32>,
@@ -27,6 +28,7 @@ pub struct Vertex {
 }
 
 #[repr(C)]
+#[derive(Clone)]
 pub struct Texture {
     pub id: u32,
     pub type_s: String,
