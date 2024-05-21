@@ -1,6 +1,5 @@
 extern crate nalgebra_glm as glm;
 
-use std::rc::Rc;
 use gl::types::*;
 use russimp::node::Node;
 use russimp::scene::PostProcess;
