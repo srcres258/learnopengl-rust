@@ -48,6 +48,30 @@ pub fn diag_mat4(value: f32) -> glm::TMat4<f32> {
     )
 }
 
+pub fn diag_mat2_nums(m00: f32, m11: f32) -> glm::TMat2<f32> {
+    glm::mat2(
+        m00, 0.0,
+        0.0, m11
+    )
+}
+
+pub fn diag_mat3_nums(m00: f32, m11: f32, m22: f32) -> glm::TMat3<f32> {
+    glm::mat3(
+        m00, 0.0, 0.0,
+        0.0, m11, 0.0,
+        0.0, 0.0, m22
+    )
+}
+
+pub fn diag_mat4_nums(m00: f32, m11: f32, m22: f32, m33: f32) -> glm::TMat4<f32> {
+    glm::mat4(
+        m00, 0.0, 0.0, 0.0,
+        0.0, m11, 0.0, 0.0,
+        0.0, 0.0, m22, 0.0,
+        0.0, 0.0, 0.0, m33
+    )
+}
+
 pub fn vec2_times(
     a: &glm::TVec2<f32>,
     b: &glm::TVec2<f32>
@@ -147,6 +171,39 @@ mod tests {
                 0.0, DIAG_VEC_AMOUNT, 0.0, 0.0,
                 0.0, 0.0, DIAG_VEC_AMOUNT, 0.0,
                 0.0, 0.0, 0.0, DIAG_VEC_AMOUNT
+            )
+        );
+    }
+
+    fn diag_mat2_nums_test() {
+        assert_eq!(
+            diag_mat2_nums(1.0, 2.0),
+            glm::mat2(
+                1.0, 0.0,
+                0.0, 2.0
+            )
+        );
+    }
+
+    fn diag_mat3_nums_test() {
+        assert_eq!(
+            diag_mat3_nums(1.0, 2.0, 3.0),
+            glm::mat3(
+                1.0, 0.0, 0.0,
+                0.0, 2.0, 0.0,
+                0.0, 0.0, 3.0
+            )
+        );
+    }
+
+    fn diag_mat4_nums_test() {
+        assert_eq!(
+            diag_mat4_nums(1.0, 2.0, 3.0, 4.0),
+            glm::mat4(
+                1.0, 0.0, 0.0, 0.0,
+                0.0, 2.0, 0.0, 0.0,
+                0.0, 0.0, 3.0, 0.0,
+                0.0, 0.0, 0.0, 4.0
             )
         );
     }
