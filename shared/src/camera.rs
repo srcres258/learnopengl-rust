@@ -213,4 +213,45 @@ impl Camera {
     pub fn zoom(&self) -> f32 {
         self.zoom
     }
+
+
+    pub fn set_position(&mut self, position: glm::TVec3<f32>) {
+        self.position = position;
+    }
+    
+    pub fn set_front(&mut self, front: glm::TVec3<f32>) {
+        self.front = front;
+    }
+    
+    pub fn set_up(&mut self, up: glm::TVec3<f32>) {
+        self.up = up;
+    }
+    
+    pub fn set_right(&mut self, right: glm::TVec3<f32>) {
+        self.right = right;
+    }
+    
+    pub fn set_world_up(&mut self, world_up: glm::TVec3<f32>) {
+        self.world_up = world_up;
+    }
+    
+    pub fn set_yaw(&mut self, yaw: f32) {
+        self.yaw = yaw;
+    }
+    
+    pub fn set_pitch(&mut self, pitch: f32) {
+        self.pitch = pitch;
+    }
+    
+    pub fn set_movement_speed(&mut self, movement_speed: f32) {
+        self.movement_speed = movement_speed;
+    }
+    
+    pub fn set_mouse_sensitivity(&mut self, mouse_sensitivity: f32) {
+        self.mouse_sensitivity = mouse_sensitivity;
+    }
+    
+    pub fn set_zoom(&mut self, zoom: f32) {
+        self.zoom = zoom;
+    }
 }
