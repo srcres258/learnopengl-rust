@@ -97,7 +97,7 @@ fn main() {
 
         // load textures
         // -------------
-        let floot_texture = load_texture(filesystem::get_path("resources/textures/wood.png".to_string()));
+        let floor_texture = load_texture(filesystem::get_path("resources/textures/wood.png".to_string()));
 
         // shader configuration
         // --------------------
@@ -139,7 +139,7 @@ fn main() {
             // floor
             gl::BindVertexArray(plane_vao);
             gl::ActiveTexture(gl::TEXTURE0);
-            gl::BindTexture(gl::TEXTURE_2D, floot_texture);
+            gl::BindTexture(gl::TEXTURE_2D, floor_texture);
             gl::DrawArrays(gl::TRIANGLES, 0, 6);
 
             println!("{}", if BLINN { "Blinn-Phong" } else { "Phong" });
