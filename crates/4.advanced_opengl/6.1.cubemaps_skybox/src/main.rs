@@ -167,7 +167,6 @@ fn main() {
         gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (5 * mem::size_of::<f32>()) as GLsizei, ptr::null());
         gl::EnableVertexAttribArray(1);
         gl::VertexAttribPointer(1, 2, gl::FLOAT, gl::FALSE, (5 * mem::size_of::<f32>()) as GLsizei, (3 * mem::size_of::<f32>()) as *const _);
-        gl::BindVertexArray(0);
         // skybox VAO
         let (mut skybox_vao, mut skybox_vbo) = (0u32, 0u32);
         gl::GenVertexArrays(1, &mut skybox_vao);
@@ -177,7 +176,6 @@ fn main() {
         gl::BufferData(gl::ARRAY_BUFFER, mem::size_of_val(&skybox_vertices) as GLsizeiptr, ptr::addr_of!(skybox_vertices) as *const _, gl::STATIC_DRAW);
         gl::EnableVertexAttribArray(0);
         gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (3 * mem::size_of::<f32>()) as GLsizei, ptr::null());
-        gl::BindVertexArray(0);
 
         // load textures
         // -------------
@@ -237,7 +235,7 @@ fn main() {
             // draw skybox as last
             gl::DepthFunc(gl::LEQUAL); // change depth function so depth test passes when values are equal to depth buffer's content
             skybox_shader.use_shader();
-            let view = util::glm::diag_mat4_nums(view.m11, view.m22, view.m33, 0.0); // remove translation from the view matrix
+            let view = util::glm::mat4_wrap_mat3(&util::glm::mat3_from_mat4(&CAMERA.lock().unwrap().get_view_matrix())); // remove translation from the view matrix
             skybox_shader.set_mat4("view".to_string(), &view);
             skybox_shader.set_mat4("projection".to_string(), &projection);
             // skybox cube
@@ -339,7 +337,7 @@ fn load_texture(path: String) -> u32 {
     unsafe {
         gl::GenTextures(1, &mut texture_id);
 
-        let img = util::image::load_image_data_rgba(path)
+        let img = util::image::load_image_data_rgba_without_flip(path)
             .expect("Failed to load texture data.");
         let width = img.width();
         let height = img.height();
@@ -384,7 +382,7 @@ fn load_cubemap(faces: &Vec<String>) -> u32 {
         gl::BindTexture(gl::TEXTURE_CUBE_MAP, texture_id);
 
         for (i, face) in faces.iter().enumerate() {
-            let img = util::image::load_image_data_rgba(face.clone())
+            let img = util::image::load_image_data_rgb_without_flip(face.clone())
                 .expect("Failed to load texture data.");
             let width = img.width();
             let height = img.height();
@@ -393,11 +391,11 @@ fn load_cubemap(faces: &Vec<String>) -> u32 {
             gl::TexImage2D(
                 gl::TEXTURE_CUBE_MAP_POSITIVE_X + i as u32,
                 0,
-                gl::RGBA as GLint,
+                gl::RGB as GLint,
                 width as GLint,
                 height as GLint,
                 0,
-                gl::RGBA,
+                gl::RGB,
                 gl::UNSIGNED_BYTE,
                 data.as_ptr() as *const _
             );

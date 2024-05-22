@@ -72,6 +72,54 @@ pub fn diag_mat4_nums(m00: f32, m11: f32, m22: f32, m33: f32) -> glm::TMat4<f32>
     )
 }
 
+pub fn mat3_wrap_mat2(target: &glm::TMat2<f32>) -> glm::TMat3<f32> {
+    glm::mat3(
+        target.m11, target.m12, 0.0,
+        target.m21, target.m22, 0.0,
+        0.0, 0.0, 1.0
+    )
+}
+
+pub fn mat4_wrap_mat2(target: &glm::TMat2<f32>) -> glm::TMat4<f32> {
+    glm::mat4(
+        target.m11, target.m12, 0.0, 0.0,
+        target.m21, target.m22, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    )
+}
+
+pub fn mat4_wrap_mat3(target: &glm::TMat3<f32>) -> glm::TMat4<f32> {
+    glm::mat4(
+        target.m11, target.m12, target.m13, 0.0,
+        target.m21, target.m22, target.m23, 0.0,
+        target.m31, target.m32, target.m33, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    )
+}
+
+pub fn mat3_from_mat4(src: &glm::TMat4<f32>) -> glm::TMat3<f32> {
+    glm::mat3(
+        src.m11, src.m12, src.m13,
+        src.m21, src.m22, src.m23,
+        src.m31, src.m32, src.m33
+    )
+}
+
+pub fn mat2_from_mat4(src: &glm::TMat4<f32>) -> glm::TMat2<f32> {
+    glm::mat2(
+        src.m11, src.m12,
+        src.m21, src.m22
+    )
+}
+
+pub fn mat2_from_mat3(src: &glm::TMat3<f32>) -> glm::TMat2<f32> {
+    glm::mat2(
+        src.m11, src.m12,
+        src.m21, src.m22
+    )
+}
+
 pub fn vec2_times(
     a: &glm::TVec2<f32>,
     b: &glm::TVec2<f32>
@@ -175,6 +223,7 @@ mod tests {
         );
     }
 
+    #[test]
     fn diag_mat2_nums_test() {
         assert_eq!(
             diag_mat2_nums(1.0, 2.0),
@@ -185,6 +234,7 @@ mod tests {
         );
     }
 
+    #[test]
     fn diag_mat3_nums_test() {
         assert_eq!(
             diag_mat3_nums(1.0, 2.0, 3.0),
@@ -196,6 +246,7 @@ mod tests {
         );
     }
 
+    #[test]
     fn diag_mat4_nums_test() {
         assert_eq!(
             diag_mat4_nums(1.0, 2.0, 3.0, 4.0),
@@ -204,6 +255,108 @@ mod tests {
                 0.0, 2.0, 0.0, 0.0,
                 0.0, 0.0, 3.0, 0.0,
                 0.0, 0.0, 0.0, 4.0
+            )
+        );
+    }
+
+    #[test]
+    fn mat3_wrap_mat2_test() {
+        let mat2 = glm::mat2(
+            11.0, 12.0,
+            21.0, 22.0
+        );
+        assert_eq!(
+            mat3_wrap_mat2(&mat2),
+            glm::mat3(
+                11.0, 12.0, 0.0,
+                21.0, 22.0, 0.0,
+                0.0, 0.0, 1.0
+            )
+        );
+    }
+
+    #[test]
+    fn mat4_wrap_mat2_test() {
+        let mat2 = glm::mat2(
+            11.0, 12.0,
+            21.0, 22.0
+        );
+        assert_eq!(
+            mat4_wrap_mat2(&mat2),
+            glm::mat4(
+                11.0, 12.0, 0.0, 0.0,
+                21.0, 22.0, 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0
+            )
+        );
+    }
+
+    #[test]
+    fn mat4_wrap_mat3_test() {
+        let mat3 = glm::mat3(
+            11.0, 12.0, 13.0,
+            21.0, 22.0, 23.0,
+            31.0, 32.0, 33.0
+        );
+        assert_eq!(
+            mat4_wrap_mat3(&mat3),
+            glm::mat4(
+                11.0, 12.0, 13.0, 0.0,
+                21.0, 22.0, 23.0, 0.0,
+                31.0, 32.0, 33.0, 0.0,
+                0.0, 0.0, 0.0, 1.0
+            )
+        );
+    }
+
+    #[test]
+    fn mat3_from_mat4_test() {
+        let mat4 = glm::mat4(
+            11.0, 12.0, 13.0, 14.0,
+            21.0, 22.0, 23.0, 24.0,
+            31.0, 32.0, 33.0, 34.0,
+            41.0, 42.0, 43.0, 44.0
+        );
+        assert_eq!(
+            mat3_from_mat4(&mat4),
+            glm::mat3(
+                11.0, 12.0, 13.0,
+                21.0, 22.0, 23.0,
+                31.0, 32.0, 33.0
+            )
+        );
+    }
+
+    #[test]
+    fn mat2_from_mat4_test() {
+        let mat4 = glm::mat4(
+            11.0, 12.0, 13.0, 14.0,
+            21.0, 22.0, 23.0, 24.0,
+            31.0, 32.0, 33.0, 34.0,
+            41.0, 42.0, 43.0, 44.0
+        );
+        assert_eq!(
+            mat2_from_mat4(&mat4),
+            glm::mat2(
+                11.0, 12.0,
+                21.0, 22.0
+            )
+        );
+    }
+
+    #[test]
+    fn mat2_from_mat3_test() {
+        let mat3 = glm::mat3(
+            11.0, 12.0, 13.0,
+            21.0, 22.0, 23.0,
+            31.0, 32.0, 33.0
+        );
+        assert_eq!(
+            mat2_from_mat3(&mat3),
+            glm::mat2(
+                11.0, 12.0,
+                21.0, 22.0
             )
         );
     }
