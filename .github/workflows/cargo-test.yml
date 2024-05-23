@@ -1,0 +1,64 @@
+name: Execute cargo test on push
+
+on: push
+
+jobs:
+  cargo-test-ubuntu-latest:
+    name: Execute cargo test (on ubuntu-latest)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout from the repository
+      uses: actions/checkout@v4.1.6
+
+    - name: Display version information
+      run: |
+        git --version
+        rustc --version
+        cargo --version
+
+    - name: Build the project
+      run: cargo build
+
+    - name: Test the project
+      run: cargo test
+
+  cargo-test-windows-latest:
+    name: Execute cargo test (on windows-latest)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout from the repository
+        uses: actions/checkout@v4.1.6
+
+      - name: Display version information
+        run: |
+          git --version
+          rustc --version
+          cargo --version
+
+      - name: Build the project
+        run: cargo build
+
+      - name: Test the project
+        run: cargo test
+
+  cargo-test-macos-latest:
+    name: Execute cargo test (on macos-latest)
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout from the repository
+        uses: actions/checkout@v4.1.6
+
+      - name: Display version information
+        run: |
+          git --version
+          rustc --version
+          cargo --version
+
+      - name: Build the project
+        run: cargo build
+
+      - name: Test the project
+        run: cargo test
