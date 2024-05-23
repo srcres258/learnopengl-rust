@@ -321,8 +321,11 @@ fn render_cube() {
 
 // renderQuad() renders a 1x1 XY quad in NDC
 // -----------------------------------------
+#[allow(dead_code)]
 static mut QUAD_VAO: u32 = 0;
+#[allow(dead_code)]
 static mut QUAD_VBO: u32 = 0;
+#[allow(dead_code)]
 fn render_quad() {
     unsafe {
         if QUAD_VAO == 0 {
@@ -455,6 +458,11 @@ fn load_texture(path: String, gamma_correction: bool) -> u32 {
             data.as_ptr() as *const _
         );
         gl::GenerateMipmap(gl::TEXTURE_2D);
+
+        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE as _);
+        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE as _);
+        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR_MIPMAP_LINEAR as _);
+        gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as _);
     }
 
     texture_id
