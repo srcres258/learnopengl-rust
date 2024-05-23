@@ -11,6 +11,9 @@ jobs:
     - name: Checkout from the repository
       uses: actions/checkout@v4.1.6
 
+    - name: install libxrandr development package
+      run: sudo apt-get install libxrandr
+
     - name: Display version information
       run: |
         git --version
