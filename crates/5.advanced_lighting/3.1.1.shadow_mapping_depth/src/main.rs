@@ -1,7 +1,6 @@
 extern crate nalgebra_glm as glm;
 
 use std::{mem, ptr};
-use std::ffi::CString;
 use std::sync::Mutex;
 use gl::types::*;
 use glfw::{Action, Context, CursorMode, Key, OpenGlProfileHint, Window, WindowHint};
@@ -85,7 +84,7 @@ fn main() {
         ];
         // plane VAO
         let mut plane_vbo = 0u32;
-        gl::GenVertexArrays(1, &mut PLANE_VAO);
+        gl::GenVertexArrays(1, ptr::addr_of_mut!(PLANE_VAO));
         gl::GenBuffers(1, &mut plane_vbo);
         gl::BindVertexArray(PLANE_VAO);
         gl::BindBuffer(gl::ARRAY_BUFFER, plane_vbo);
@@ -153,12 +152,10 @@ fn main() {
 
             // 1. render depth of scene to texture (from light's perspective)
             // --------------------------------------------------------------
-            let (mut light_projection, mut light_view) = (util::glm::diag_mat4(1.0), util::glm::diag_mat4(1.0));
-            let mut light_space_matrix = util::glm::diag_mat4(1.0);
             let (near_plane, far_plane) = (1.0, 7.5);
-            light_projection = glm::ortho(-10.0, 10.0, -10.0, 10.0, near_plane, far_plane);
-            light_view = glm::look_at(&light_pos, &util::glm::scale_vec3(0.0), &glm::vec3(0.0, 1.0, 0.0));
-            light_space_matrix = light_projection * light_view;
+            let light_projection = glm::ortho(-10.0, 10.0, -10.0, 10.0, near_plane, far_plane);
+            let light_view = glm::look_at(&light_pos, &util::glm::scale_vec3(0.0), &glm::vec3(0.0, 1.0, 0.0));
+            let light_space_matrix = light_projection * light_view;
             // render scene from light's point of view
             simple_depth_shader.use_shader();
             simple_depth_shader.set_mat4("lightSpaceMatrix".to_string(), &light_space_matrix);
@@ -192,7 +189,7 @@ fn main() {
 
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
-        gl::DeleteVertexArrays(1, &plane_vao);
+        gl::DeleteVertexArrays(1, ptr::addr_of!(PLANE_VAO));
         gl::DeleteBuffers(1, &plane_vbo);
     }
 }
@@ -278,8 +275,8 @@ fn render_cube() {
                 -1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0, // top-left
                 -1.0,  1.0,  1.0,  0.0,  1.0,  0.0, 0.0, 0.0  // bottom-left
             ];
-            gl::GenVertexArrays(1, &mut CUBE_VAO);
-            gl::GenBuffers(1, &mut CUBE_VBO);
+            gl::GenVertexArrays(1, ptr::addr_of_mut!(CUBE_VAO));
+            gl::GenBuffers(1, ptr::addr_of_mut!(CUBE_VBO));
             // fill buffer
             gl::BindBuffer(gl::ARRAY_BUFFER, CUBE_VBO);
             gl::BufferData(gl::ARRAY_BUFFER, mem::size_of_val(&vertices) as _, ptr::addr_of!(vertices) as _, gl::STATIC_DRAW);
@@ -316,8 +313,8 @@ fn render_quad() {
                 1.0, -1.0, 0.0, 1.0, 0.0
             ];
             // setup plane VAO
-            gl::GenVertexArrays(1, &mut QUAD_VAO);
-            gl::GenBuffers(1, &mut QUAD_VBO);
+            gl::GenVertexArrays(1, ptr::addr_of_mut!(QUAD_VAO));
+            gl::GenBuffers(1, ptr::addr_of_mut!(QUAD_VBO));
             gl::BindVertexArray(QUAD_VAO);
             gl::BindBuffer(gl::ARRAY_BUFFER, QUAD_VBO);
             gl::BufferData(gl::ARRAY_BUFFER, mem::size_of_val(&quad_vertices) as _, ptr::addr_of!(quad_vertices) as _, gl::STATIC_DRAW);
