@@ -120,6 +120,30 @@ pub fn mat2_from_mat3(src: &glm::TMat3<f32>) -> glm::TMat2<f32> {
     )
 }
 
+pub fn vec3_wrap_vec2(target: &glm::TVec2<f32>, z: f32) -> glm::TVec3<f32> {
+    glm::vec3(target.x, target.y, z)
+}
+
+pub fn vec4_wrap_vec2(target: &glm::TVec2<f32>, z: f32, w: f32) -> glm::TVec4<f32> {
+    glm::vec4(target.x, target.y, z, w)
+}
+
+pub fn vec4_wrap_vec3(target: &glm::TVec3<f32>, w: f32) -> glm::TVec4<f32> {
+    glm::vec4(target.x, target.y, target.z, w)
+}
+
+pub fn vec3_from_vec4(src: &glm::TVec4<f32>) -> glm::TVec3<f32> {
+    glm::vec3(src.x, src.y, src.z)
+}
+
+pub fn vec2_from_vec4(src: &glm::TVec4<f32>) -> glm::TVec2<f32> {
+    glm::vec2(src.x, src.y)
+}
+
+pub fn vec2_from_vec3(src: &glm::TVec3<f32>) -> glm::TVec2<f32> {
+    glm::vec2(src.x, src.y)
+}
+
 pub fn vec2_times(
     a: &glm::TVec2<f32>,
     b: &glm::TVec2<f32>
@@ -358,6 +382,60 @@ mod tests {
                 11.0, 12.0,
                 21.0, 22.0
             )
+        );
+    }
+
+    #[test]
+    fn vec3_wrap_vec2_test() {
+        let vec2 = glm::vec2(114.114, 514.514);
+        assert_eq!(
+            vec3_wrap_vec2(&vec2, 1919.1919),
+            glm::vec3(114.114, 514.514, 1919.1919)
+        );
+    }
+
+    #[test]
+    fn vec4_wrap_vec2_test() {
+        let vec2 = glm::vec2(114.114, 514.514);
+        assert_eq!(
+            vec4_wrap_vec2(&vec2, 1919.1919, 810.810),
+            glm::vec4(114.114, 514.514, 1919.1919, 810.810)
+        );
+    }
+
+    #[test]
+    fn vec4_wrap_vec3_test() {
+        let vec3 = glm::vec3(114.114, 514.514, 1919.1919);
+        assert_eq!(
+            vec4_wrap_vec3(&vec3, 810.810),
+            glm::vec4(114.114, 514.514, 1919.1919, 810.810)
+        );
+    }
+
+    #[test]
+    fn vec3_from_vec4_test() {
+        let vec4 = glm::vec4(114.114, 514.514, 1919.1919, 810.810);
+        assert_eq!(
+            vec3_from_vec4(&vec4),
+            glm::vec3(114.114, 514.514, 1919.1919)
+        );
+    }
+
+    #[test]
+    fn vec2_from_vec4_test() {
+        let vec4 = glm::vec4(114.114, 514.514, 1919.1919, 810.810);
+        assert_eq!(
+            vec2_from_vec4(&vec4),
+            glm::vec2(114.114, 514.514)
+        );
+    }
+
+    #[test]
+    fn vec2_from_vec3_test() {
+        let vec3 = glm::vec3(114.114, 514.514, 1919.1919);
+        assert_eq!(
+            vec2_from_vec3(&vec3),
+            glm::vec2(114.114, 514.514)
         );
     }
 
