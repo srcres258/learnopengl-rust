@@ -165,6 +165,10 @@ pub fn vec4_times(
     glm::vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w)
 }
 
+pub fn clamp(x: f32, min_val: f32, max_val: f32) -> f32 {
+    max_val.min(min_val.max(x))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -467,5 +471,35 @@ mod tests {
             vec4_times(&a, &b),
             glm::vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w)
         );
+    }
+
+    #[test]
+    fn clamp_test_1() {
+        // x < min_val < max_val
+        let x = 114.0;
+        let min_val = 514.0;
+        let max_val = 1919.0;
+        assert!(min_val < max_val, "Wrong testing data."); // We must assure min_val < max_val
+        assert_eq!(clamp(x, min_val, max_val), 514.0);
+    }
+
+    #[test]
+    fn clamp_test_2() {
+        // min_val < x < max_val
+        let x = 514.0;
+        let min_val = 114.0;
+        let max_val = 1919.0;
+        assert!(min_val < max_val, "Wrong testing data."); // We must assure min_val < max_val
+        assert_eq!(clamp(x, min_val, max_val), 514.0);
+    }
+
+    #[test]
+    fn clamp_test_3() {
+        // min_val < max_val < x
+        let x = 1919.0;
+        let min_val = 114.0;
+        let max_val = 514.0;
+        assert!(min_val < max_val, "Wrong testing data."); // We must assure min_val < max_val
+        assert_eq!(clamp(x, min_val, max_val), 514.0);
     }
 }
