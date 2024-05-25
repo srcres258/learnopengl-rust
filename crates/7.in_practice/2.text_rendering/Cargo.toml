@@ -1,0 +1,14 @@
+[package]
+name = "learnopengl-7-2-text_rendering"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+gl.workspace = true
+glfw.workspace = true
+nalgebra-glm.workspace = true
+freetype.workspace = true
+lazy_static.workspace = true
+learnopengl-shared = { path = "../../../shared" }

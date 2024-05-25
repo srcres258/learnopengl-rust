@@ -169,6 +169,16 @@ pub fn clamp(x: f32, min_val: f32, max_val: f32) -> f32 {
     max_val.min(min_val.max(x))
 }
 
+pub fn ortho(left: f32, right: f32, bottom: f32, top: f32) -> glm::TMat4<f32> {
+    let mut result = diag_mat4(1.0);
+    result[(0, 0)] = 2f32 / (right - left);
+    result[(1, 1)] = 2f32 / (top - bottom);
+    result[(2, 2)] = -1f32;
+    result[(0, 3)] = - (right + left) / (right - left);
+    result[(1, 3)] = - (top + bottom) / (top - bottom);
+    result
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -501,5 +511,10 @@ mod tests {
         let max_val = 514.0;
         assert!(min_val < max_val, "Wrong testing data."); // We must assure min_val < max_val
         assert_eq!(clamp(x, min_val, max_val), 514.0);
+    }
+
+    #[test]
+    fn ortho_test() {
+        //TODO
     }
 }
