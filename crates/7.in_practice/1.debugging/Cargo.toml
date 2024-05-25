@@ -1,0 +1,12 @@
+[package]
+name = "learnopengl-7-1-debugging"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+gl.workspace = true
+glfw.workspace = true
+nalgebra-glm.workspace = true
+learnopengl-shared = { path = "../../../shared" }
