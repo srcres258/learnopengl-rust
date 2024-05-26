@@ -6,6 +6,7 @@ pub mod power_up;
 pub mod sprite_renderer;
 pub mod shader;
 pub mod resource_manager;
+pub mod ball_object;
 
 fn main() {
     println!("Hello, world!");
