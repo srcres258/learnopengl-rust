@@ -1,0 +1,77 @@
+extern crate nalgebra_glm as glm;
+
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use crate::game_object::GameObject;
+
+/// GameLevel holds all Tiles as part of a Breakout level and
+/// hosts functionality to Load/render levels from the harddisk.
+pub struct GameLevel {
+    // level state
+    pub bricks: Vec<GameObject>
+}
+
+impl GameLevel {
+    // constructor
+    pub fn new() -> Self {
+        Self {
+            bricks: Vec::new()
+        }
+    }
+
+    // loads level from file
+    pub fn load(
+        &mut self,
+        file: &str,
+        level_width: u32,
+        level_height: u32
+    ) {
+        // clear old data
+        self.bricks.clear();
+        // load from file
+        let mut tile_code = 0u32;
+        let f = File::open(file).unwrap();
+        let lines = BufReader::new(f).lines();
+        let mut tile_data: Vec<Vec<u32>> = Vec::new();
+        for line in lines {
+            if let Ok(line) = line {
+                let num_strs = line.split(' ');
+                let mut row: Vec<u32> = Vec::new();
+                for num_str in num_strs {
+                    let num_str = num_str.trim();
+                    let num = num_str.parse().unwrap();
+                    row.push(num);
+                }
+                tile_data.push(row);
+            }
+        }
+        if tile_data.len() > 0 {
+            self.init(tile_data, level_width, level_height);
+        }
+    }
+
+    // initialize level from tile data
+    fn init(
+        &mut self,
+        tile_data: Vec<Vec<u32>>,
+        level_width: u32,
+        level_height: u32
+    ) {
+        // calculate dimensions
+        let height = tile_data.len();
+        let width = tile_data[0].len();
+        let unit_width = level_width as f32 / width as f32;
+        let unit_height = level_height as f32 / height as f32;
+        // initialize level tiles based on tileData
+        for y in 0..height {
+            for x in 0..width {
+                // check block type from level data (2D level array)
+                if tile_data[y][x] == 1 { // solid
+                    let pos = glm::vec2(unit_width * x, unit_height * y);
+                    let size = glm::vec2(unit_width, unit_height);
+                    let obj = GameObject::new_ex1(pos, size, ) // todo
+                }
+            }
+        }
+    }
+}
