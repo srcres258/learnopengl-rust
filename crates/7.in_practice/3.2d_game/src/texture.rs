@@ -2,6 +2,7 @@ use std::ptr;
 
 // Texture2D is able to store and configure a texture in OpenGL.
 // It also hosts utility functions for easy management.
+#[derive(Copy, Clone)]
 pub struct Texture2D {
     // holds the ID of the texture object, used for all texture operations to reference to this particular texture
     pub id: u32,

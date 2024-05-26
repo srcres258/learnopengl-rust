@@ -1,8 +1,11 @@
 extern crate nalgebra_glm as glm;
 
+use std::ptr;
 use lazy_static::lazy_static;
 use crate::game_level::GameLevel;
+use crate::game_object::GameObject;
 use crate::power_up::PowerUp;
+use crate::sprite_renderer::SpriteRenderer;
 
 // Represents the current state of the game
 pub enum GameState {
@@ -47,5 +50,82 @@ pub struct Game {
     pub levels: Vec<GameLevel>,
     pub power_ups: Vec<PowerUp>,
     pub level: u32,
-    pub lives: u32
+    pub lives: u32,
+
+    // Game-related State data
+    renderer: Option<Box<SpriteRenderer>>,
+    player: Option<Box<GameObject>>,
+    ball: Option<Box<BallObject>>,
+    particles: Option<Box<ParticleGenerator>>,
+    effects: Option<Box<PostProcessor>>,
+    text: Option<Box<TextRenderer>>
+}
+
+impl Game {
+    // constructor
+    pub fn new(width: u32, height: u32) -> Self {
+        Self {
+            state: GameState::Menu,
+            keys: [false; 1024],
+            keys_pressed: [false; 1024],
+            width,
+            height,
+            levels: Vec::new(),
+            power_ups: Vec::new(),
+            level: 0,
+            lives: 3
+        }
+    }
+
+    // initialize game state (load all shaders/textures/levels)
+    pub fn init(&self) {
+        //todo
+    }
+
+    // game loop
+    pub fn process_input(&self, dt: f32) {
+        //todo
+    }
+
+    pub fn update(&self, dt: f32) {
+        //todo
+    }
+
+    pub fn render(&self) {
+        //todo
+    }
+
+    pub fn do_collisions(&self) {
+        //todo
+    }
+
+    // reset
+    pub fn reset_level(&self) {
+        //todo
+    }
+
+    pub fn reset_player(&self) {
+        //todo
+    }
+
+    // powerups
+    pub fn spawn_power_ups(&self) {
+        //todo
+    }
+
+    pub fn update_power_ups(&self, dt: f32) {
+        //todo
+    }
+}
+
+impl Drop for Game {
+    // destructor
+    fn drop(&mut self) {
+        drop(self.renderer.take());
+        drop(self.player.take());
+        drop(self.ball.take());
+        drop(self.particles.take());
+        drop(self.effects.take());
+        drop(self.text.take());
+    }
 }

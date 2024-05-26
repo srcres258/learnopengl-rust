@@ -6,6 +6,7 @@ use std::ptr;
 // General purpose shader object. Compiles from file, generates
 // compile/link-time error messages and hosts several utility
 // functions for easy management.
+#[derive(Copy, Clone)]
 pub struct Shader {
     // state
     pub id: u32

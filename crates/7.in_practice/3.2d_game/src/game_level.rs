@@ -2,7 +2,10 @@ extern crate nalgebra_glm as glm;
 
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use learnopengl_shared::util;
 use crate::game_object::GameObject;
+use crate::resource_manager;
+use crate::sprite_renderer::SpriteRenderer;
 
 /// GameLevel holds all Tiles as part of a Breakout level and
 /// hosts functionality to Load/render levels from the harddisk.
@@ -69,9 +72,51 @@ impl GameLevel {
                 if tile_data[y][x] == 1 { // solid
                     let pos = glm::vec2(unit_width * x, unit_height * y);
                     let size = glm::vec2(unit_width, unit_height);
-                    let obj = GameObject::new_ex1(pos, size, ) // todo
+                    let mut obj = GameObject::new_ex1(pos, size, resource_manager::get_texture("block_solid".to_string()), glm::vec3(0.8, 0.8, 0.7), util::glm::empty_vec2());
+                    obj.is_solid = true;
+                    self.bricks.push(obj);
+                } else if tile_data[y][x] > 1 { // non-solid; now determine its color based on level data
+                    let mut color = util::glm::scale_vec3(1.0); // original: white
+                    match tile_data[y][x] {
+                        2 => {
+                            color = glm::vec3(0.2, 0.6, 1.0);
+                        }
+                        3 => {
+                            color = glm::vec3(0.0, 0.7, 0.0);
+                        }
+                        4 => {
+                            color = glm::vec3(0.8, 0.8, 0.4);
+                        }
+                        5 => {
+                            color = glm::vec3(1.0, 0.5, 0.0);
+                        }
+                        _ => {}
+                    }
+
+                    let pos = glm::vec2(unit_width * x as f32, unit_height * y as f32);
+                    let size = glm::vec2(unit_width, unit_height);
+                    self.bricks.push(GameObject::new_ex1(pos, size, resource_manager::get_texture("block".to_string()), color, util::glm::empty_vec2()));
                 }
             }
         }
+    }
+
+    // render level
+    pub fn draw(&self, renderer: &SpriteRenderer) {
+        for tile in self.bricks.iter() {
+            if !tile.destroyed {
+                tile.draw(renderer);
+            }
+        }
+    }
+
+    // check if the level is completed (all non-solid tiles are destroyed)
+    pub fn is_completed(&self) -> bool {
+        for tile in self.bricks.iter() {
+            if !tile.is_solid && !tile.destroyed {
+                return false;
+            }
+        }
+        true
     }
 }
