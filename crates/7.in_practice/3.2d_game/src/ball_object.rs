@@ -2,6 +2,7 @@ extern crate nalgebra_glm as glm;
 
 use learnopengl_shared::util;
 use crate::game_object::GameObject;
+use crate::sprite_renderer::SpriteRenderer;
 use crate::texture::Texture2D;
 
 // BallObject holds the state of the Ball object inheriting
@@ -82,5 +83,9 @@ impl BallObject {
         self.stuck = true;
         self.sticky = false;
         self.pass_through = false;
+    }
+
+    pub fn draw(&self, renderer: &SpriteRenderer) {
+        self.game_obj.draw(renderer);
     }
 }

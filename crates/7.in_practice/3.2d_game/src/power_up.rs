@@ -2,6 +2,7 @@ extern crate nalgebra_glm as glm;
 
 use lazy_static::lazy_static;
 use crate::game_object::GameObject;
+use crate::sprite_renderer::SpriteRenderer;
 use crate::texture::Texture2D;
 
 lazy_static! {
@@ -45,5 +46,9 @@ impl PowerUp {
             duration,
             activated: false
         }
+    }
+
+    pub fn draw(&self, renderer: &SpriteRenderer) {
+        self.game_obj.draw(renderer);
     }
 }
