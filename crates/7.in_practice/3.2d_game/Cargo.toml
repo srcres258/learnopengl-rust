@@ -10,4 +10,6 @@ gl.workspace = true
 glfw.workspace = true
 nalgebra-glm.workspace = true
 lazy_static.workspace = true
+rand.workspace = true
+freetype.workspace = true
 learnopengl-shared = { path = "../../../shared" }

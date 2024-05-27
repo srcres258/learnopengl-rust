@@ -2,9 +2,11 @@ extern crate nalgebra_glm as glm;
 
 use std::ptr;
 use lazy_static::lazy_static;
+use learnopengl_shared::filesystem;
 use crate::game_level::GameLevel;
 use crate::game_object::GameObject;
 use crate::power_up::PowerUp;
+use crate::resource_manager;
 use crate::sprite_renderer::SpriteRenderer;
 
 // Represents the current state of the game
@@ -78,7 +80,34 @@ impl Game {
     }
 
     // initialize game state (load all shaders/textures/levels)
-    pub fn init(&self) {
+    pub fn init(&mut self) {
+        // load shaders
+        resource_manager::load_shader("sprite.vs", "sprite.fs", None, "sprite");
+        resource_manager::load_shader("particle.vs", "particle.fs", None, "particle");
+        resource_manager::load_shader("post_processing.vs", "post_processing.fs", None, "postprocessing");
+        // configure shaders
+        let projection = glm::ortho(0.0, self.width as f32, self.height as f32, 0.0, -1.0, 1.0);
+        resource_manager::get_shader("sprite".to_string()).use_shader().set_integer("sprite", 0);
+        resource_manager::get_shader("sprite".to_string()).set_matrix4("projection", &projection);
+        resource_manager::get_shader("particle".to_string()).use_shader().set_integer("sprite", 0);
+        resource_manager::get_shader("particle".to_string()).set_matrix4("projection", &projection);
+        // load textures
+        resource_manager::load_texture(filesystem::get_path("resources/textures/background.jpg".to_string()).as_str(), false, "background".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/awesomeface.png".to_string()).as_str(), true, "face".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/block.png".to_string()).as_str(), false, "block".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/block_solid.png".to_string()).as_str(), false, "block_solid".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/paddle.png".to_string()).as_str(), true, "paddle".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/particle.png".to_string()).as_str(), true, "particle".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_speed.png".to_string()).as_str(), true, "powerup_speed".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_sticky.png".to_string()).as_str(), true, "powerup_sticky".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_increase.png".to_string()).as_str(), true, "powerup_increase".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_confuse.png".to_string()).as_str(), true, "powerup_confuse".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_chaos.png".to_string()).as_str(), true, "powerup_chaos".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_passthrough.png".to_string()).as_str(), true, "powerup_passthrough".to_string());
+        // set render-specific controls
+        let renderer = SpriteRenderer::new(resource_manager::get_shader("sprite"));
+        let renderer = Box::new(renderer);
+        self.renderer = Some(renderer);
         //todo
     }
 

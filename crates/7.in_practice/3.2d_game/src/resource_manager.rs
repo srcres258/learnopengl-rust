@@ -23,11 +23,11 @@ lazy_static! {
 pub fn load_shader(
     v_shader_file: &str,
     f_shader_file: &str,
-    g_shader_file: &str,
+    g_shader_file: Option<&str>,
     name: String
 ) -> Shader {
     let mut shaders = SHADERS.lock().unwrap();
-    shaders.entry(name.clone()).or_insert(load_shader_from_file(v_shader_file, f_shader_file, Some(g_shader_file)));
+    shaders.entry(name.clone()).or_insert(load_shader_from_file(v_shader_file, f_shader_file, g_shader_file));
     shaders[&name]
 }
 
