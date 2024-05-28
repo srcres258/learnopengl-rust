@@ -87,6 +87,12 @@ impl GameObject {
 
     // draw sprite
     pub fn draw(&self, renderer: &SpriteRenderer) {
-        renderer.draw_sprite_ex(&self.sprite, self.position, self.size, self.rotation, self.color);
+        renderer.draw_sprite_ex2(
+            &self.sprite,
+            self.position,
+            self.size,
+            self.rotation,
+            self.color
+        );
     }
 }

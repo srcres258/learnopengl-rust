@@ -74,16 +74,44 @@ impl SpriteRenderer {
         texture: &Texture2D,
         position: glm::TVec2<f32>
     ) {
-        self.draw_sprite_ex(
+        self.draw_sprite_ex0(
             texture,
             position,
-            glm::vec2(10.0, 10.0),
-            0.0,
+            glm::vec2(10.0, 10.0)
+        );
+    }
+
+    pub fn draw_sprite_ex0(
+        &self,
+        texture: &Texture2D,
+        position: glm::TVec2<f32>,
+        size: glm::TVec2<f32>
+    ) {
+        self.draw_sprite_ex1(
+            texture,
+            position,
+            size,
+            0.0
+        );
+    }
+
+    pub fn draw_sprite_ex1(
+        &self,
+        texture: &Texture2D,
+        position: glm::TVec2<f32>,
+        size: glm::TVec2<f32>,
+        rotate: f32
+    ) {
+        self.draw_sprite_ex2(
+            texture,
+            position,
+            size,
+            rotate,
             util::glm::scale_vec3(1.0)
         );
     }
 
-    pub fn draw_sprite_ex(
+    pub fn draw_sprite_ex2(
         &self,
         texture: &Texture2D,
         position: glm::TVec2<f32>,

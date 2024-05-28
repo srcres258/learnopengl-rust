@@ -355,12 +355,10 @@ impl Game {
             // begin rendering to postprocessing framebuffer
             self.effects.as_ref().unwrap().begin_render();
             // draw background
-            self.renderer.as_ref().unwrap().draw_sprite_ex(
+            self.renderer.as_ref().unwrap().draw_sprite_ex0(
                 &resource_manager::get_texture("background".to_string()),
                 glm::vec2(0.0, 0.0),
-                glm::vec2(self.width as _, self.height as _),
-                0.0,
-                util::glm::scale_vec3(1.0)
+                glm::vec2(self.width as _, self.height as _)
             );
             // draw level
             self.levels[self.level as usize].draw(self.renderer.as_ref().unwrap());
