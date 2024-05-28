@@ -483,12 +483,14 @@ impl Game {
             }
             _ => {}
         }
+
+        self.lives = 3;
     }
 
     pub fn reset_player(&mut self) {
         // reset player/ball stats
         self.player.as_mut().unwrap().size = PLAYER_SIZE.clone();
-        self.player.as_mut().unwrap().position = glm::vec2(self.width as f32 / 2.0 - PLAYER_SIZE.x / 2.0, self.height as f32 / 2.0 - PLAYER_SIZE.y);
+        self.player.as_mut().unwrap().position = glm::vec2(self.width as f32 / 2.0 - PLAYER_SIZE.x / 2.0, self.height as f32 - PLAYER_SIZE.y);
         self.ball.as_mut().unwrap().reset(self.player.as_ref().unwrap().position + glm::vec2(PLAYER_SIZE.x / 2.0 - BALL_RADIUS, -(BALL_RADIUS * 2.0)), INITIAL_BALL_VELOCITY.clone());
         // also disable all active powerups
         self.effects.as_mut().unwrap().chaos = false;
