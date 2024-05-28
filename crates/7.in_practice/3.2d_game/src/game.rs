@@ -207,10 +207,10 @@ impl Game {
         resource_manager::get_shader("particle".to_string()).use_shader().set_integer("sprite", 0);
         resource_manager::get_shader("particle".to_string()).set_matrix4("projection", &projection);
         // load textures
-        resource_manager::load_texture(filesystem::get_path("resources/textures/background.jpg".to_string()).as_str(), false, "background".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/background.jpg".to_string()).as_str(), true, "background".to_string());
         resource_manager::load_texture(filesystem::get_path("resources/textures/awesomeface.png".to_string()).as_str(), true, "face".to_string());
-        resource_manager::load_texture(filesystem::get_path("resources/textures/block.png".to_string()).as_str(), false, "block".to_string());
-        resource_manager::load_texture(filesystem::get_path("resources/textures/block_solid.png".to_string()).as_str(), false, "block_solid".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/block.png".to_string()).as_str(), true, "block".to_string());
+        resource_manager::load_texture(filesystem::get_path("resources/textures/block_solid.png".to_string()).as_str(), true, "block_solid".to_string());
         resource_manager::load_texture(filesystem::get_path("resources/textures/paddle.png".to_string()).as_str(), true, "paddle".to_string());
         resource_manager::load_texture(filesystem::get_path("resources/textures/particle.png".to_string()).as_str(), true, "particle".to_string());
         resource_manager::load_texture(filesystem::get_path("resources/textures/powerup_speed.png".to_string()).as_str(), true, "powerup_speed".to_string());
