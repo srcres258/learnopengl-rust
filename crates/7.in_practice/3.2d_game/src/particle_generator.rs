@@ -190,7 +190,7 @@ impl ParticleGenerator {
     ) {
         let particle = &mut self.particles[particle_index];
         let mut rng = rand::thread_rng();
-        let random = ((rng.gen::<u32>() % 100) - 50) as f32 / 10.0;
+        let random = ((rng.gen::<u32>() % 100) as f32 - 50.0) / 10.0;
         let r_color = 0.5 + ((rng.gen::<u32>() % 100) as f32 / 100.0);
         particle.position = glm::vec2(object.position.x + random + offset.x, object.position.y + random + offset.y);
         particle.color = glm::vec4(r_color, r_color, r_color, 1.0);

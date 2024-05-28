@@ -37,12 +37,14 @@ impl GameLevel {
         let mut tile_data: Vec<Vec<u32>> = Vec::new();
         for line in lines {
             if let Ok(line) = line {
-                let num_strs = line.split(' ');
+                let num_strs: Vec<_> = line.split(" ").collect();
                 let mut row: Vec<u32> = Vec::new();
                 for num_str in num_strs {
                     let num_str = num_str.trim();
-                    let num = num_str.parse().unwrap();
-                    row.push(num);
+                    let num: Result<u32, _> = num_str.parse();
+                    if let Ok(num) = num {
+                        row.push(num);
+                    }
                 }
                 tile_data.push(row);
             }

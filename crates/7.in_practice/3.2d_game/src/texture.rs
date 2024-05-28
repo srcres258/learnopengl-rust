@@ -45,10 +45,21 @@ impl Texture2D {
     pub fn generate(&mut self, width: u32, height: u32, data: &[u8]) {
         self.width = width;
         self.height = height;
+        let data_vec = Vec::from(data);
         unsafe {
             // create Texture
             gl::BindTexture(gl::TEXTURE_2D, self.id);
-            gl::TexImage2D(gl::TEXTURE_2D, 0, self.internal_format as _, width as _, height as _, 0, self.image_format, gl::UNSIGNED_BYTE, ptr::addr_of!(data) as _);
+            gl::TexImage2D(
+                gl::TEXTURE_2D,
+                0,
+                self.internal_format as _,
+                width as _,
+                height as _,
+                0,
+                self.image_format,
+                gl::UNSIGNED_BYTE,
+                if data_vec.len() == 0 { ptr::null() } else { data_vec.as_ptr() as _ }
+            );
             // set Texture wrap and filter modes
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, self.wrap_s as _);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, self.wrap_t as _);
