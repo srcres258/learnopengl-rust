@@ -86,7 +86,7 @@ impl ParticleGenerator {
         // add new particles
         for _ in 0..new_particles {
             let unused_particle = self.first_unused_particle() as usize;
-            self.respawn_particle_ex(&self.particles[unused_particle], object, offset);
+            self.respawn_particle(unused_particle, object, offset);
         }
         // update all particles
         for i in 0..self.amount as usize {
@@ -182,29 +182,17 @@ impl ParticleGenerator {
         0
     }
 
-    // respawns particle
     fn respawn_particle(
-        &self,
-        particle: &mut Particle,
-        object: &GameObject
-    ) {
-        self.respawn_particle_ex(
-            particle,
-            object,
-            glm::vec2(0.0, 0.0)
-        );
-    }
-
-    fn respawn_particle_ex(
-        &self,
-        particle: &mut Particle,
+        &mut self,
+        particle_index: usize,
         object: &GameObject,
         offset: glm::TVec2<f32>
     ) {
+        let particle = &mut self.particles[particle_index];
         let mut rng = rand::thread_rng();
         let random = ((rng.gen::<u32>() % 100) - 50) as f32 / 10.0;
         let r_color = 0.5 + ((rng.gen::<u32>() % 100) as f32 / 100.0);
-        particle.position = object.position + random + offset;
+        particle.position = glm::vec2(object.position.x + random + offset.x, object.position.y + random + offset.y);
         particle.color = glm::vec4(r_color, r_color, r_color, 1.0);
         particle.life = 1.0;
         particle.velocity = object.velocity * 0.1;

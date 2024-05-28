@@ -16,6 +16,7 @@ lazy_static! {
 // GameObject but also holds extra information to state its
 // active duration and whether it is activated or not. 
 // The type of PowerUp is stored as a string.
+#[derive(Clone)]
 pub struct PowerUp {
     pub game_obj: GameObject,
     // powerup state

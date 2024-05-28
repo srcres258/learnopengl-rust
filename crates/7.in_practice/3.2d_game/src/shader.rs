@@ -35,21 +35,21 @@ impl Shader {
         fragment_source: String,
         geometry_source: Option<String> // note: geometry source code is optional
     ) {
-        let (mut s_vertex, mut s_fragment, mut g_shader) = (0u32, 0u32, Some(0u32));
         unsafe {
             // vertex Shader
-            s_vertex = gl::CreateShader(gl::VERTEX_SHADER);
+            let s_vertex = gl::CreateShader(gl::VERTEX_SHADER);
             let vertex_source = CString::new(vertex_source).unwrap();
             gl::ShaderSource(s_vertex, 1, vertex_source.as_ptr() as _, ptr::null());
             gl::CompileShader(s_vertex);
             Self::check_compile_errors(s_vertex, "VERTEX".to_string());
             // fragment Shader
-            s_fragment = gl::CreateShader(gl::FRAGMENT_SHADER);
+            let s_fragment = gl::CreateShader(gl::FRAGMENT_SHADER);
             let fragment_source = CString::new(fragment_source).unwrap();
             gl::ShaderSource(s_fragment, 1, fragment_source.as_ptr() as _, ptr::null());
             gl::CompileShader(s_fragment);
             Self::check_compile_errors(s_fragment, "FRAGMENT".to_string());
             // if geometry shader source code is given, also compile geometry shader
+            let mut g_shader = None;
             if let Some(geometry_source) = geometry_source {
                 g_shader = Some(gl::CreateShader(gl::GEOMETRY_SHADER));
                 let geometry_source = CString::new(geometry_source).unwrap();

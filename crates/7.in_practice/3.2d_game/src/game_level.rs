@@ -32,7 +32,6 @@ impl GameLevel {
         // clear old data
         self.bricks.clear();
         // load from file
-        let mut tile_code = 0u32;
         let f = File::open(file).unwrap();
         let lines = BufReader::new(f).lines();
         let mut tile_data: Vec<Vec<u32>> = Vec::new();
@@ -70,7 +69,7 @@ impl GameLevel {
             for x in 0..width {
                 // check block type from level data (2D level array)
                 if tile_data[y][x] == 1 { // solid
-                    let pos = glm::vec2(unit_width * x, unit_height * y);
+                    let pos = glm::vec2(unit_width * x as f32, unit_height * y as f32);
                     let size = glm::vec2(unit_width, unit_height);
                     let mut obj = GameObject::new_ex1(pos, size, resource_manager::get_texture("block_solid".to_string()), glm::vec3(0.8, 0.8, 0.7), util::glm::empty_vec2());
                     obj.is_solid = true;
