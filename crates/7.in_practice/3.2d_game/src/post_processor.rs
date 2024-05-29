@@ -116,7 +116,7 @@ impl PostProcessor {
                 1.0 / 16.0, 2.0 / 16.0, 1.0 / 16.0
             ];
             let c_string = CString::new("blur_kernel").unwrap();
-            gl::Uniform1iv(gl::GetUniformLocation(result.post_processing_shader.id, c_string.as_ptr()), 9, ptr::addr_of!(blur_kernel) as _);
+            gl::Uniform1fv(gl::GetUniformLocation(result.post_processing_shader.id, c_string.as_ptr()), 9, ptr::addr_of!(blur_kernel) as _);
         }
 
         result
