@@ -137,6 +137,10 @@ fn check_collision_1(one: &BallObject, two: &GameObject) -> Collision { // AABB 
     // now retrieve vector between center circle and closest point AABB and check if length < radius
     difference = closest - center;
 
+    if difference.x == 0.0 && difference.y == 0.0 {
+        return (false, Direction::Up, glm::vec2(0.0, 0.0));
+    }
+
     if glm::length(&difference) < one.radius { // not <= since in that case a collision also occurs when object one exactly touches object two, which they are at the end of each collision resolution stage.
         (true, vector_direction(difference), difference)
     } else {
