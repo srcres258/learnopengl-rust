@@ -1,6 +1,6 @@
 # LearnOpenGL Rust
 
-Rewrite of LearnOpenGL example source code in Rust language.
+Rewrite of [LearnOpenGL example source code](https://github.com/JoeyDeVries/LearnOpenGL) in Rust language.
 
 # Instructions on how to build this repository
 
