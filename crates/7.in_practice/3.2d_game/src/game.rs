@@ -27,6 +27,7 @@ use crate::particle_generator::ParticleGenerator;
 use crate::post_processor::PostProcessor;
 use crate::power_up::PowerUp;
 use crate::resource_manager;
+use crate::sound_engine::SoundEngine;
 use crate::sprite_renderer::SpriteRenderer;
 use crate::text_renderer::TextRenderer;
 
@@ -84,6 +85,7 @@ pub struct Game {
     particles: Option<Box<ParticleGenerator>>,
     effects: Option<Box<PostProcessor>>,
     text: Option<Box<TextRenderer>>,
+    sound_engine: Option<Box<SoundEngine>>,
 
     shake_time: f32,
 
@@ -193,6 +195,7 @@ impl Game {
             particles: None,
             effects: None,
             text: None,
+            sound_engine: None,
             shake_time: 0.0,
             glfw
         }
@@ -260,6 +263,11 @@ impl Game {
         let ball = BallObject::new_ex(ball_pos, BALL_RADIUS, INITIAL_BALL_VELOCITY.clone(), resource_manager::get_texture("face".to_string()));
         let ball = Box::new(ball);
         self.ball = Some(ball);
+        let sound_engine = SoundEngine::new();
+        let sound_engine = Box::new(sound_engine);
+        self.sound_engine = Some(sound_engine);
+        // audio
+        self.sound_engine.as_ref().unwrap().play(filesystem::get_path("resources/audio/breakout.mp3".to_string()).as_str(), true);
     }
 
     // game loop
@@ -411,6 +419,7 @@ impl Game {
                         self.shake_time = 0.05;
                         self.effects.as_mut().unwrap().shake = true;
                     }
+                    self.sound_engine.as_ref().unwrap().play(filesystem::get_path("resources/audio/bleep.mp3".to_string()).as_str(), false);
                     // collision resolution
                     let dir = collision.1;
                     let diff_vector = collision.2;
@@ -456,6 +465,7 @@ impl Game {
                     activate_power_up_indexes.push(i);
                     power_up.game_obj.destroyed = true;
                     power_up.activated = true;
+                    self.sound_engine.as_ref().unwrap().play(filesystem::get_path("resources/audio/powerup.wav".to_string()).as_str(), false);
                 }
             }
         }
@@ -663,6 +673,9 @@ impl Drop for Game {
             drop(it);
         }
         if let Some(it) = self.text.take() {
+            drop(it);
+        }
+        if let Some(it) = self.sound_engine.take() {
             drop(it);
         }
     }

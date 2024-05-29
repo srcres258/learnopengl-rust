@@ -30,6 +30,7 @@ pub mod ball_object;
 pub mod particle_generator;
 pub mod post_processor;
 pub mod text_renderer;
+pub mod sound_engine;
 
 // The Width of the screen
 const SCREEN_WIDTH: u32 = 800;
