@@ -19,7 +19,7 @@ resources at once:
 
 [FreeType](http://www.freetype.org/)
 
-# Build the source code
+## Build the source code
 
 To build and run test, switch to the repository root directory and run:
 
