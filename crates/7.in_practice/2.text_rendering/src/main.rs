@@ -16,7 +16,7 @@
 
 extern crate nalgebra_glm as glm;
 
-use std::ffi::{c_void, CStr, CString};
+use std::ffi::CString;
 use std::{mem, process, ptr};
 use std::collections::HashMap;
 use std::sync::Mutex;
