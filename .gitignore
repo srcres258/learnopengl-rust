@@ -15,3 +15,6 @@ Cargo.lock
 
 # Quilt files
 /series
+
+# .cargo directory
+/.cargo
