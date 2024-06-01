@@ -1,5 +1,5 @@
 [package]
-name = "learnopengl-shared"
+name = "learnopengl-shared-ex"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
@@ -7,6 +7,6 @@ authors.workspace = true
 
 [dependencies]
 gl.workspace = true
-glfw.workspace = true
 nalgebra-glm.workspace = true
-image.workspace = true
+russimp.workspace = true
+learnopengl-shared = { path = "../shared" }

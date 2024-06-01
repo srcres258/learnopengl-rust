@@ -23,9 +23,9 @@ use russimp::scene::Scene as AIScene;
 use russimp::mesh::Mesh as AIMesh;
 use russimp::material::{Material as AIMaterial, TextureType};
 use russimp::material::TextureType as AITextureType;
-use crate::mesh::{Mesh, Texture, Vertex};
-use crate::shader::Shader;
-use crate::util;
+use learnopengl_shared::mesh::{Mesh, Texture, Vertex};
+use learnopengl_shared::shader::Shader;
+use learnopengl_shared::util;
 
 pub struct Model {
     // model data

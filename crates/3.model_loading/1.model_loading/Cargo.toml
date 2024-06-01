@@ -12,3 +12,4 @@ nalgebra-glm.workspace = true
 lazy_static.workspace = true
 image.workspace = true
 learnopengl-shared = { path = "../../../shared" }
+learnopengl-shared-ex = { path = "../../../shared-ex" }

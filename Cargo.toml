@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*/*", "shared"]
+members = ["crates/*/*", "shared", "shared-ex"]
 exclude = [
     "crates/1.getting_started/7.5.camera_exercise1",
     "crates/1.getting_started/7.6.camera_exercise2"

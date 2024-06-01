@@ -22,7 +22,7 @@ use learnopengl_shared::{filesystem, util};
 use learnopengl_shared::shader::Shader;
 use lazy_static::lazy_static;
 use learnopengl_shared::camera::{Camera, Movement};
-use learnopengl_shared::model::Model;
+use learnopengl_shared_ex::model::Model;
 
 const SCR_WIDTH: u32 = 800;
 const SCR_HEIGHT: u32 = 600;
